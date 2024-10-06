@@ -11,6 +11,7 @@
             background-color: #f0f4f8;
             margin: 0;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
@@ -61,7 +62,26 @@
             font-size: 18px;
         }
 
-        /* Edit Form Styling */
+        /* Dark Mode */
+        body.dark {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        body.dark h1 {
+            color: #fff;
+        }
+
+        body.dark #task_list li {
+            background-color: #333;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark button:hover {
+            background-color: #555;
+        }
+
+        /* Dark mode for edit form */
         #edit_form {
             background-color: #fff;
             padding: 20px;
@@ -74,6 +94,13 @@
             gap: 10px;
             align-items: center;
             justify-content: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark #edit_form {
+            background-color: #333;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         #edit_form input[type="text"] {
@@ -81,6 +108,12 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+        }
+
+        body.dark #edit_form input[type="text"] {
+            background-color: #555;
+            color: #fff;
+            border: 1px solid #888;
         }
 
         #edit_form input[type="checkbox"] {
@@ -124,6 +157,23 @@
             background-color: #888;
         }
 
+        /* Dark Mode Button Styling */
+        #dark_mode_toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4CAF50;
+        }
+
+        #dark_mode_toggle:hover {
+            color: #45a049;
+        }
+
         @media (max-width: 768px) {
             #task_name {
                 width: 100%;
@@ -138,6 +188,9 @@
 </head>
 <body>
     <h1>To-Do List</h1>
+    <!-- Sun/Moon toggle button -->
+    <button id="dark_mode_toggle" onclick="toggleDarkMode()">&#9728;</button> <!-- Sun Icon by default -->
+
     <div style="text-align: center;">
         <input type="text" id="task_name" placeholder="New Task">
         <button class="btn-primary" onclick="addTask()">Add Task</button>
@@ -163,6 +216,32 @@
 
     <script>
         let editTaskId = null;  // Track the task being edited
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggleButton = document.getElementById('dark_mode_toggle');
+            
+            body.classList.toggle('dark');
+            
+            const isDarkMode = body.classList.contains('dark');
+            
+            // Switch between sun and moon icon
+            toggleButton.innerHTML = isDarkMode ? '&#9790;' : '&#9728;';  // Moon (dark mode) / Sun (light mode)
+            
+            // Store the user's preference in localStorage
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        }
+
+        // Check if dark mode was previously enabled
+        window.onload = function() {
+            const toggleButton = document.getElementById('dark_mode_toggle');
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark');
+                toggleButton.innerHTML = '&#9790;'; // Moon icon if dark mode is enabled
+            }
+            getTasks();
+        }
 
         function getTasks() {
             $.ajax({
@@ -260,11 +339,6 @@
             $('#edit_form').hide();  // Hide edit form
             editTaskId = null;
         }
-
-        // Initialize the task list when the page loads
-        $(document).ready(function() {
-            getTasks();
-        });
     </script>
 </body>
 </html>
