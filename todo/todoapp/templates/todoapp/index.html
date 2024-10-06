@@ -279,7 +279,7 @@
                         $('#task_name').val('');  // Clear input field
                     },
                     error: function(error) {
-                        alert('Failed to add task');
+                        alert('Unauthorised, Failed to add task');
                     }
                 });
             }
@@ -311,7 +311,7 @@
                         cancelEdit();  // Hide edit form
                     },
                     error: function(error) {
-                        alert('Failed to update task');
+                        alert('Unauthorised, Failed to update task');
                     }
                 });
             }
@@ -333,7 +333,7 @@
                     getTasks();  // Refresh task list
                 },
                 error: function(error) {
-                    alert('Failed to delete task');
+                    alert('Unauthorised, Failed to delete task');
                 }
             });
         }
