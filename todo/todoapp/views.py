@@ -6,7 +6,7 @@ def index(request):
     return render(request, 'todoapp/index.html')
 
 def get_tasks(request):
-    tasks = list(Task.objects.values())
+    tasks = list(Task.objects.order_by('is_completed').values())
     return JsonResponse({'tasks': tasks})
 
 def add_task(request):

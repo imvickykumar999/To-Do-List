@@ -20,7 +20,6 @@
         }
 
         #task_name {
-            width: 300px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -60,6 +59,12 @@
 
         #task_list li span {
             font-size: 18px;
+            flex: 1;  /* Allow the span to take available space */
+        }
+
+        .icon {
+            font-size: 20px; /* Size of the tick/cross icons */
+            margin-right: 10px; /* Space between icon and task name */
         }
 
         /* Dark Mode */
@@ -175,10 +180,6 @@
         }
 
         @media (max-width: 768px) {
-            #task_name {
-                width: 100%;
-            }
-
             #edit_form {
                 width: 90%;
                 margin: 20px auto;
@@ -250,9 +251,11 @@
                 success: function(data) {
                     $('#task_list').empty();
                     data.tasks.forEach(task => {
+                        const statusIcon = task.is_completed ? '✓' : '✗';  // Check mark or cross
                         $('#task_list').append(`
                             <li id="task_${task.id}">
-                                <span>${task.name} ${task.is_completed ? '(Completed)' : ''}</span>
+                                <span class="icon">${statusIcon}</span>
+                                <span>${task.name}</span>
                                 <div>
                                     <button class="btn-secondary" onclick="editTask(${task.id}, '${task.name}', ${task.is_completed})">Edit</button>
                                     <button class="btn-danger" onclick="confirmDelete(${task.id})">Delete</button>
