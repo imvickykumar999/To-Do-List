@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,12 +60,12 @@
 
         #task_list li span {
             font-size: 18px;
-            flex: 1;  /* Allow the span to take available space */
+            flex: 1;
         }
 
         .icon {
-            font-size: 20px; /* Size of the tick/cross icons */
-            margin-right: 10px; /* Space between icon and task name */
+            font-size: 20px;
+            margin-right: 10px;
         }
 
         /* Dark Mode */
@@ -93,7 +94,7 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
-            width: 50%;
+            width: 60%;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -165,7 +166,7 @@
         /* Dark Mode Button Styling */
         #dark_mode_toggle {
             position: fixed;
-            top: 20px;
+            top: 5px;
             right: 20px;
             padding: 10px;
             background-color: transparent;
@@ -179,6 +180,69 @@
             color: #45a049;
         }
 
+        .banner {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        /* Mobile View */
+        .banner-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Desktop View */
+        @media (min-width: 768px) {
+            .banner-container {
+                position: fixed;
+                top: 144px;
+                left: 20px;
+                width: 350px;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .banner {
+                width: 110%;
+                height: auto;
+                border-radius: 20px;
+            }
+
+            #task_input {
+                position: fixed;
+                top: 54px;
+                left: 35px;
+                width: 350px;
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: #f0f4f8;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            body.dark #task_input {
+                background-color: #333;
+                color: #fff;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+
+            .content {
+                margin-left: 400px;
+            }
+
+            #edit_form {
+                position: fixed;
+                top: 405px;
+                left: 35px;
+                width: 350px;
+                padding: 20px;
+                box-sizing: border-box;
+                transition: background-color 0.3s, color 0.3s;
+            }
+        }
+
         @media (max-width: 768px) {
             #edit_form {
                 width: 90%;
@@ -188,16 +252,24 @@
     </style>
 </head>
 <body>
-    <h1>To-Do List</h1>
-    <!-- Sun/Moon toggle button -->
-    <button id="dark_mode_toggle" onclick="toggleDarkMode()">&#9728;</button> <!-- Sun Icon by default -->
-
-    <div style="text-align: center;">
+    <!-- Banner Image -->
+    <div class="banner-container">
+        <img src="{% static 'images/banner.jpg' %}" alt="Banner" class="banner">
+    </div>
+    
+    <!-- Task Input Section (Fixed for Desktop) -->
+    <div id="task_input" style="text-align: center;">
         <input type="text" id="task_name" placeholder="New Task">
         <button class="btn-primary" onclick="addTask()">Add Task</button>
     </div>
-    <br>
-    <ul id="task_list"></ul>
+    
+    <!-- Sun/Moon toggle button -->
+    <button id="dark_mode_toggle" onclick="toggleDarkMode()">☀</button> <!-- Sun Icon by default -->
+
+    <div class="content">
+        <br>
+        <ul id="task_list"></ul>
+    </div>
 
     <!-- Hidden edit form to update task details -->
     <div id="edit_form" style="display:none;">
@@ -342,6 +414,13 @@
             $('#edit_form').hide();  // Hide edit form
             editTaskId = null;
         }
+
+        document.getElementById("task_name").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+
     </script>
 </body>
 </html>
