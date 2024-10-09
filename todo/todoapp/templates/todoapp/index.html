@@ -234,13 +234,32 @@
 
             #edit_form {
                 position: fixed;
-                top: 405px;
+                top: 140px;
                 left: 35px;
                 width: 350px;
                 padding: 20px;
                 box-sizing: border-box;
                 transition: background-color 0.3s, color 0.3s;
             }
+        }
+
+        /* Scroll to Top Button */
+        #scroll_to_top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            font-size: 18px;
+        }
+
+        #scroll_to_top:hover {
+            background-color: #007bb5;
         }
 
         @media (max-width: 768px) {
@@ -257,6 +276,9 @@
         <img src="{% static 'images/banner.jpg' %}" alt="Banner" class="banner">
     </div>
     
+    <!-- Scroll to Top Button -->
+    <button id="scroll_to_top" onclick="scrollToTop()">⬆</button>
+
     <!-- Task Input Section (Fixed for Desktop) -->
     <div id="task_input" style="text-align: center;">
         <input type="text" id="task_name" placeholder="New Task">
@@ -420,6 +442,34 @@
                 addTask();
             }
         });
+
+        function editTask(taskId, taskName, isCompleted) {
+            // Show edit form and populate with existing task details
+            $('#edit_form').show();
+            $('#edit_task_name').val(taskName);
+            $('#edit_task_completed').prop('checked', isCompleted);
+            editTaskId = taskId;
+
+            // Scroll to the edit form only on mobile view
+            if (window.innerWidth < 768) {
+                $('html, body').animate({
+                    scrollTop: $('#edit_form').offset().top
+                }, 500); // 500ms animation duration
+            }
+        }
+
+        // Scroll to Top Functionality
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('#scroll_to_top').fadeIn();
+            } else {
+                $('#scroll_to_top').fadeOut();
+            }
+        });
+
+        function scrollToTop() {
+            $('html, body').animate({ scrollTop: 0 }, 500); // 500ms animation duration
+        }
 
     </script>
 </body>
