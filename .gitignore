@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 
 # daily fcm notification
-notification/serviceAccountKey.json
+*serviceAccountKey.json
