@@ -202,7 +202,7 @@
         @media (min-width: 768px) {
             .user-info {
                 position: fixed;
-                top: 130px;
+                top: 145px;
                 left: 35px;
                 width: 350px;
                 padding: 20px;
@@ -211,7 +211,7 @@
 
             .banner-container {
                 position: fixed;
-                top: 160px;
+                top: 197px;
                 left: 20px;
                 width: 350px;
                 padding: 20px;
@@ -249,7 +249,7 @@
 
             #edit_form {
                 position: fixed;
-                top: 130px;
+                top: 140px;
                 left: 35px;
                 width: 350px;
                 padding: 20px;
@@ -287,9 +287,11 @@
 </head>
 <body>
     <!-- Banner Image -->
-    <div class="banner-container">
-        <img src="{% static 'images/banner.jpg' %}" alt="Banner" class="banner">
-    </div>
+    <a href="/logout">
+      <div class="banner-container">
+          <img src="{% static 'images/banner.jpg' %}" alt="Banner" class="banner">
+      </div>
+    </a>
 
     <!-- Scroll to Top Button -->
     <button id="scroll_to_top" onclick="scrollToTop()">⬆</button>
@@ -301,10 +303,14 @@
     </div>
 
     <!-- User Information (Position depends on viewport size) -->
+    <br>
     {% if user.is_authenticated %}
-        <br>
         <div id="user_info" class="user-info">
-            Hello @<span id="username">{{ user.username }}</span>
+            <span id="username"><strong>@{{ user.username }}</strong></span>
+        </div>
+    {% else %}
+        <div id="user_info" class="user-info">
+            <strong>Personalized To Do List</strong>
         </div>
     {% endif %}
     
